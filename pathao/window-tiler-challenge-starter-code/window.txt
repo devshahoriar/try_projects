@@ -1,0 +1,77 @@
+# Window Tiler
+
+# Details
+
+1. You are creating a tiling window system similar to Windows or Mac.
+2. Users will be able to create windows using the “+” button on the bottom right corner.
+3. Each window will be created in a random color, and show up at a random position
+4. Windows will have a bar on the top with a close button
+5. Users can close windows using the close button
+6. Users can click and drag on the bar to move windows.
+7. When a window is within 30px of an edge of the screen, there will be a transparent indicator showing that the window can be snapped to that side
+8. Once a window is snapped it will either take the full width (if snapped to top or bottom), or the full height (is snapped to right or left)
+9. Window will always take up 50% of the space on the axis it was snapped.
+10. Windows can be further snapped inside another window grid; i.e. once you snap a window to the left, you can snap another window to the left window’s top.
+11. Initially windows can be snapped on all 4 sides: top, left, bottom, right
+12. After the window has already been divided, snapping will only occur on the longer axis of a sub-grid.
+13. Windows can still be closed after being snapped; this will cause the other side to take the entire space.
+14. Windows can be moved out of their snapping positions causing it to be floating window again; the other window in the grid cell will take up the full space (similar to the closing case)
+
+# (Common) Rules
+
+1. Don’t make change to the `package.json` file provided int he starter code.
+2. Don’t use an extra libraries from npm.
+3. **Don’t use SVG or Canvas**; prefer to keep it only React to render HTML and CSS/Tailwind
+
+# Evaluate Yourself
+
+- [ ]  (1/6) Windows are being generated at random positions
+- [ ]  (2/6) You are able to move the windows
+- [ ]  (3/6) Windows are snapping to the sides
+- [ ]  (4/6) Windows are snapping to nested sides
+- [ ]  (5/6) Windows can be closed/removed
+- [ ]  (6/6) The other windows are growing and shrinking properly
+
+# How to Submit
+
+1. Download the starter code
+2. Complete your challenge & commit
+3. Add the Git SSH URL in your challenge portal as a remote in your git repository
+4. Push to the newly created remote
+5. Done.
+
+# FAQs
+
+- Do I need to submit within 12 hours of viewing this page?
+    
+    Not really. We have decided later that the 12 hour rule should be more of a guideline than a hard rule. Feel free to submit any time within the 56 hours.
+    
+- How many tines can I submit?
+    
+    You can push to the same repo as many times as you want as long as the challenge portal is open.
+    
+- Where can I get help?
+    
+    Message us on WhatsApp using this link: [WhatsApp Link](https://wa.me/+8801714045318?text=Hi%2C+I%27m+messaging+about+the+at-home+challenges+for+Pathao%27s+Innovation+Team.+I+was+hoping+to+know+the+following%3A+%0A%0A)
+    
+- When will you let me know if I’m chosen for the next round?
+    
+    Within a week hopefully.
+    
+- Do I need to make it responsive?
+    
+    Nope.
+    
+- My SSH key isn’t working what should I do?
+    
+    You should definitely double check if 
+    
+    1. Your SSH key is correct and not malformed.
+    2. Your SSH key is properly being used by your git client.
+    3. You have added the corrent remote to your repo.
+    
+    If it still doesn’t work, feel free to get in touch.
+    
+- Do I need to solve all of the challenges?
+    
+    No, solve the one or two which you think is the hardest; They will have the lowest amount of competition. We will take your best submission on the lowest competition challenge. (we do this to give you the best chance of success for going into the next round)
