@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database for persistent memory storage
+  postgres:
+    image: postgres:15-alpine
+    container_name: chatbot-postgres
+    environment:
+      POSTGRES_DB: chatbot_memory
+      POSTGRES_USER: chatbot_user
+      POSTGRES_PASSWORD: chatbot_password
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - chatbot-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chatbot_user -d chatbot_memory"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Python gRPC chatbot service
+  chatbot-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chatbot-service
+    environment:
+      # Database connection settings
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: chatbot_memory
+      DB_USER: chatbot_user
+      DB_PASSWORD: chatbot_password
+      
+      # gRPC server settings
+      GRPC_PORT: 50051
+      
+      # Add your Google AI API key here or use .env file
+      # GOOGLE_API_KEY: your_api_key_here
+    ports:
+      - "50051:50051"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - chatbot-network
+    volumes:
+      # Mount .env file if it exists
+      - ./.env:/app/.env:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s = socket.socket(); s.connect(('localhost', 50051)); s.close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  chatbot-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

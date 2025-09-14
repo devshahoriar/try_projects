@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package chatbot;
+
+// Service definition for the AI Chatbot
+service ChatbotService {
+  // Streaming RPC for chat interaction
+  rpc StreamChat(ChatRequest) returns (stream ChatResponse);
+  
+  // Get conversation history
+  rpc GetHistory(HistoryRequest) returns (HistoryResponse);
+  
+  // Clear conversation
+  rpc ClearConversation(ClearRequest) returns (ClearResponse);
+  
+  // Get all conversations for a user
+  rpc GetUserConversations(UserConversationsRequest) returns (UserConversationsResponse);
+  
+  // Health check
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+// Request message for chat
+message ChatRequest {
+  string thread_id = 1;      // Unique thread identifier (user_id_conversation_id)
+  string message = 2;        // User's message
+  string user_id = 3;        // Required: User identifier
+  string conversation_id = 4; // Optional: Conversation identifier (defaults to "main")
+}
+
+// Response message for streaming chat
+message ChatResponse {
+  string thread_id = 1;      // Thread identifier
+  string content = 2;        // Chunk of AI response
+  bool is_complete = 3;      // Indicates if this is the final chunk
+  string error = 4;          // Error message if any
+}
+
+// Request for conversation history
+message HistoryRequest {
+  string thread_id = 1;      // Thread identifier
+  string user_id = 2;        // Optional: User identifier
+  string conversation_id = 3; // Optional: Conversation identifier
+}
+
+// Response for conversation history
+message HistoryResponse {
+  string thread_id = 1;      // Thread identifier
+  repeated Message messages = 2; // List of messages
+  string error = 3;          // Error message if any
+}
+
+// Message structure for history
+message Message {
+  string role = 1;           // "human" or "ai"
+  string content = 2;        // Message content
+  int64 timestamp = 3;       // Unix timestamp
+}
+
+// Request to clear conversation
+message ClearRequest {
+  string thread_id = 1;      // Thread identifier
+  string user_id = 2;        // Optional: User identifier
+  string conversation_id = 3; // Optional: Conversation identifier
+}
+
+// Response for clear conversation
+message ClearResponse {
+  string thread_id = 1;      // Thread identifier
+  bool success = 2;          // Whether operation was successful
+  string error = 3;          // Error message if any
+}
+
+// Request to get all conversations for a user
+message UserConversationsRequest {
+  string user_id = 1;        // User identifier
+}
+
+// Response for user conversations
+message UserConversationsResponse {
+  string user_id = 1;        // User identifier
+  repeated Conversation conversations = 2; // List of conversations
+  string error = 3;          // Error message if any
+}
+
+// Conversation summary structure
+message Conversation {
+  string thread_id = 1;      // Thread identifier (user_id_conversation_id)
+  string conversation_id = 2; // Conversation identifier
+  string first_message = 3;  // First message in the conversation
+  int64 created_at = 4;      // Creation timestamp
+  int64 last_activity = 5;   // Last activity timestamp
+  int32 message_count = 6;   // Total number of messages in conversation
+}
+
+// Health check request
+message HealthCheckRequest {
+}
+
+// Health check response
+message HealthCheckResponse {
+  string status = 1;         // "SERVING" or "NOT_SERVING"
+}

@@ -1,0 +1,10 @@
+grpcio>=1.66.1
+grpcio-tools>=1.66.1
+protobuf>=5.28.0
+langchain>=0.2.16
+langchain-google-genai>=1.0.10
+langgraph>=0.2.21
+langchain-core>=0.2.39
+python-dotenv>=1.0.1
+psycopg>=3.2.1
+typing-extensions>=4.12.2
